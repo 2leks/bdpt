@@ -1,0 +1,21 @@
+build () {
+    cd bin
+    make
+    cd ..
+}
+
+run () {
+    cd bin
+    echo "Tracing ..."
+    if ./trace ; then
+        cd ..
+        convert res.ppm res.png
+    else
+        cd ..
+    fi
+    echo "Done."
+}
+
+clean () {
+    trash res.*
+}
