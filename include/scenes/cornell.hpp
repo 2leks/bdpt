@@ -30,7 +30,7 @@ Scene scene() {
     Scene scene;
 
     // spherical light
-    scene.insert(std::make_shared<Sphere>(Vec3{0, 0.5, 0}, 0.2), std::make_shared<Diff>(WHITE, 2));
+    scene.insert(std::make_shared<Sphere>(Vec3{0, 0.5, 0}, 0.25), std::make_shared<Diff>(WHITE, 1));
 
     // bottom
     scene.insert(std::make_shared<Triangle>(FAR_BOTTOM_RIGHT, CLOSE_BOTTOM_LEFT, CLOSE_BOTTOM_RIGHT), GRAY_DIFF);

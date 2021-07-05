@@ -19,8 +19,9 @@ Vec3 radiance(const Ray& ray, Scene scene, int bounces) {
 
         Vec3 normal = shape->normal(*ray.direction, hit);
         Vec3 direction = mat->direction(normal);
-        Vec3 f = *mat->color * mat->bsdf(normal, direction) * (1.f / mat->prob);
+        Vec3 color = *mat->color * std::max(0.f, normal.dot(-1 * *ray.direction));
 
+        Vec3 f = color * mat->bsdf(normal, direction) * (1.f / mat->prob);
         Ray next(*action->point, direction);
         return mat->emission + f * radiance(next, scene, bounces + 1);
     }
