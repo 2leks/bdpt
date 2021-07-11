@@ -1,4 +1,4 @@
-#include "mats/diffuse.hpp"
+#include "mats/lambertian.hpp"
 
 #include <cmath>
 
@@ -6,13 +6,14 @@
 #include "utils/rng.hpp"
 #include "utils/vec3.hpp"
 
-Diff::Diff(const Vec3& color, float emission, float albedo, float prob) : Mat(color, emission, prob), albedo(albedo) {}
+Lambertian::Lambertian(const Vec3& color, float emission, float albedo, float prob)
+    : Mat(color, emission, prob), albedo(albedo) {}
 
-float Diff::bsdf(const Vec3& from, const Vec3& to) const {
-    return albedo * PI_INV * to.dot(from);
+Vec3 Lambertian::bsdf(const Vec3& normal, const Vec3& direction) const {
+    return Vec3{1, 1, 1} * albedo * PI_INV * normal.dot(direction);
 }
 
-Vec3 Diff::direction(const Vec3& normal) const {
+Vec3 Lambertian::direction(const Vec3& normal) const {
     float r1 = TWO_PI * RNG::rand(0, 1);
     float r2 = RNG::rand(0, 1);
     float r2s = std::sqrt(r2);

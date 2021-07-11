@@ -6,7 +6,8 @@ add_executable(${PROJECT_NAME}
     ${PROJECT_SOURCE_DIR}/src/utils/vec3.cpp 
     ${PROJECT_SOURCE_DIR}/src/utils/rng.cpp 
     ${PROJECT_SOURCE_DIR}/src/utils/scene.cpp 
-    ${PROJECT_SOURCE_DIR}/src/mats/diffuse.cpp 
+    ${PROJECT_SOURCE_DIR}/src/mats/lambertian.cpp 
+    ${PROJECT_SOURCE_DIR}/src/mats/dielectric.cpp 
     ${PROJECT_SOURCE_DIR}/src/integrator/path.cpp 
     ${PROJECT_SOURCE_DIR}/src/integrator/mat.cpp 
     ${PROJECT_SOURCE_DIR}/src/integrator/interaction.cpp 
