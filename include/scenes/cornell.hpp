@@ -14,12 +14,14 @@ Scene scene() {
     Vec3 PINK(.75, .25, .75);
     Vec3 BLUE(.25, .25, .75);
     Vec3 GRAY(.75, .75, .75);
-    Vec3 GREEN(.25, 1, .7);
+    Vec3 GREEN(.25, 1, .75);
+    Vec3 YELLOW(.75, .55, .45);
 
     auto GRAY_LAMB = std::make_shared<Lambertian>(GRAY);
     auto PINK_LAMB = std::make_shared<Lambertian>(PINK);
     auto BLUE_LAMB = std::make_shared<Lambertian>(BLUE);
     auto GREEN_LAMB = std::make_shared<Lambertian>(GREEN);
+    auto YELLOW_LAMB = std::make_shared<Lambertian>(YELLOW);
 
     Vec3 FAR_TOP_LEFT(-1, 1, 1);
     Vec3 FAR_TOP_RIGHT(1, 1, 1);
@@ -38,8 +40,8 @@ Scene scene() {
     // room
     scene.insert(std::make_unique<Triangle>(FAR_BOTTOM_RIGHT, CLOSE_BOTTOM_LEFT, CLOSE_BOTTOM_RIGHT), GRAY_LAMB);
     scene.insert(std::make_unique<Triangle>(FAR_BOTTOM_RIGHT, FAR_BOTTOM_LEFT, CLOSE_BOTTOM_LEFT), GRAY_LAMB);
-    scene.insert(std::make_unique<Triangle>(CLOSE_BOTTOM_RIGHT, CLOSE_TOP_RIGHT, FAR_BOTTOM_RIGHT), PINK_LAMB);
-    scene.insert(std::make_unique<Triangle>(FAR_BOTTOM_RIGHT, CLOSE_TOP_RIGHT, FAR_TOP_RIGHT), PINK_LAMB);
+    scene.insert(std::make_unique<Triangle>(CLOSE_BOTTOM_RIGHT, CLOSE_TOP_RIGHT, FAR_BOTTOM_RIGHT), YELLOW_LAMB);
+    scene.insert(std::make_unique<Triangle>(FAR_BOTTOM_RIGHT, CLOSE_TOP_RIGHT, FAR_TOP_RIGHT), YELLOW_LAMB);
     scene.insert(std::make_unique<Triangle>(CLOSE_TOP_LEFT, CLOSE_BOTTOM_LEFT, FAR_BOTTOM_LEFT), GREEN_LAMB);
     scene.insert(std::make_unique<Triangle>(FAR_TOP_LEFT, CLOSE_TOP_LEFT, FAR_BOTTOM_LEFT), GREEN_LAMB);
     scene.insert(std::make_unique<Triangle>(CLOSE_TOP_RIGHT, CLOSE_TOP_LEFT, FAR_TOP_RIGHT), GRAY_LAMB);

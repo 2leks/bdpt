@@ -1,36 +1,30 @@
 #include <algorithm>
-#include <array>
 #include <cmath>
 #include <iostream>
 #include <vector>
 
 #include "geometry/ray.hpp"
-#include "geometry/shape.hpp"
-#include "geometry/sphere.hpp"
-#include "geometry/triangle.hpp"
 #include "geometry/vec3.hpp"
 #include "integrator/path.hpp"
-#include "mats/dielectric.hpp"
-#include "mats/lambertian.hpp"
 #include "scenes/cornell.hpp"
 #include "utils/scene.hpp"
 
-const int h = 400;
+const int h = 800;
 const int w = h;
 const int f = h;
-const int samples = 128;
+const int samples = 512;
 
 int main() {
     Scene scene = Cornell::scene();
-    std::array<Vec3, w * h> image;
-    Vec3 camera{0, 0, -3};
+    std::vector<Vec3> image(w * h);
+    Vec3 camera(0, 0, -3);
 
     #pragma omp parallel for
     for (int y = 0; y < h; y++) {
         for (int x = 0; x < w; x++) {
             for (int s = 0; s < samples; s++) {
                 int pixel = (h - y - 1) * w + x;
-                Vec3 direction = Vec3{x - w / 2.f, y - h / 2.f, f}.norm();
+                Vec3 direction = Vec3(x - w / 2.f, y - h / 2.f, f).norm();
                 image[pixel] = image[pixel] + path::radiance(Ray(camera, direction), scene) * (1.f / samples);
             }
         }
