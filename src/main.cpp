@@ -2,19 +2,22 @@
 #include <array>
 #include <cmath>
 #include <iostream>
+#include <vector>
 
 #include "geometry/ray.hpp"
+#include "geometry/shape.hpp"
 #include "geometry/sphere.hpp"
 #include "geometry/triangle.hpp"
+#include "geometry/vec3.hpp"
 #include "integrator/path.hpp"
+#include "mats/dielectric.hpp"
+#include "mats/lambertian.hpp"
 #include "scenes/cornell.hpp"
 #include "utils/scene.hpp"
-#include "utils/vec3.hpp"
 
 const int h = 400;
 const int w = h;
 const int f = h;
-
 const int samples = 128;
 
 int main() {
@@ -28,7 +31,7 @@ int main() {
             for (int s = 0; s < samples; s++) {
                 int pixel = (h - y - 1) * w + x;
                 Vec3 direction = Vec3{x - w / 2.f, y - h / 2.f, f}.norm();
-                image[pixel] = image[pixel] + Path::radiance(Ray(camera, direction), scene) * (1.f / samples);
+                image[pixel] = image[pixel] + path::radiance(Ray(camera, direction), scene) * (1.f / samples);
             }
         }
     }

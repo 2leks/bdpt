@@ -1,18 +1,18 @@
 cmake_minimum_required(VERSION 3.16)
-project(trace)
+project(bdpt)
 
 add_executable(${PROJECT_NAME} 
     ${PROJECT_SOURCE_DIR}/src/main.cpp 
-    ${PROJECT_SOURCE_DIR}/src/utils/vec3.cpp 
     ${PROJECT_SOURCE_DIR}/src/utils/rng.cpp 
     ${PROJECT_SOURCE_DIR}/src/utils/scene.cpp 
+    ${PROJECT_SOURCE_DIR}/src/mats/mat.cpp 
     ${PROJECT_SOURCE_DIR}/src/mats/lambertian.cpp 
     ${PROJECT_SOURCE_DIR}/src/mats/dielectric.cpp 
     ${PROJECT_SOURCE_DIR}/src/integrator/path.cpp 
-    ${PROJECT_SOURCE_DIR}/src/integrator/mat.cpp 
     ${PROJECT_SOURCE_DIR}/src/integrator/interaction.cpp 
     ${PROJECT_SOURCE_DIR}/src/geometry/triangle.cpp 
     ${PROJECT_SOURCE_DIR}/src/geometry/sphere.cpp 
+    ${PROJECT_SOURCE_DIR}/src/geometry/vec3.cpp 
     ${PROJECT_SOURCE_DIR}/src/geometry/ray.cpp 
 )
 

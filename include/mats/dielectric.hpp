@@ -1,21 +1,19 @@
 #pragma once
-
 #include <memory>
 
-#include "integrator/mat.hpp"
-#include "utils/constants.hpp"
+#include "mats/mat.hpp"
 
 struct Vec3;
 
 struct Dielectric : Mat {
-    float refraction;
+    float ior;
 
-    Dielectric(const Vec3& color, float emission = 0, float refraction = 1.55, float prob = 1);
-    ~Dielectric() = default;
+    Dielectric(const Vec3& color, float ior = 1.55, float em = 0);
+    Dielectric(Dielectric& diel);
+    Dielectric(Dielectric&& diel) = default;
 
-    Vec3 bsdf(const Vec3& from, const Vec3& to) const;
-    Vec3 direction(const Vec3& normal) const;
+    float f(const Vec3& from, const Vec3& to) const;
+    float prob() const;
 
-   private:
-    Vec3 fresnel(const Vec3& normal, const Vec3& direction) const;
+    Vec3 dir(const Vec3& norm) const;
 };

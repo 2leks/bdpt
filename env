@@ -1,21 +1,16 @@
 build () {
     mkdir -p bin
-    cd bin
-    make
-    cd ..
+    (cd bin && make)
 }
 
 run () {
-    cd bin
-    echo "Tracing ..."
-    ./trace 
-    cd ..
-    if [ -f res.png ]; then; mv res.png res_old.png; fi;
+    (echo "Tracing ..." && cd bin && ./bdpt)
+    if [ -f res.png ]; then; mv res.png res_old.png; fi
     convert res.ppm res.png
     echo "Done."
 }
 
 clean () {
     trash res.*
-    if [ -f res_old.png ]; then; trash res_old.png; fi;
+    if [ -f res_old.png ]; then; trash res_old.png; fi
 }

@@ -1,15 +1,14 @@
 #pragma once
-
 #include <memory>
 #include <vector>
 
-#include "integrator/mat.hpp"
-#include "integrator/shape.hpp"
+#include "geometry/shape.hpp"
+#include "geometry/vec3.hpp"
+#include "mats/mat.hpp"
 
 struct Scene {
-    std::vector<std::shared_ptr<Shape>> shapes;
+    std::vector<std::unique_ptr<Shape>> shapes;
     std::vector<std::shared_ptr<Mat>> mats;
-    std::vector<int> lights;
 
-    void insert(std::shared_ptr<Shape> shape, std::shared_ptr<Mat> mat, bool light = false);
+    void insert(std::unique_ptr<Shape> shape, std::shared_ptr<Mat> mat);
 };

@@ -1,24 +1,30 @@
 #include "mats/lambertian.hpp"
 
 #include <cmath>
+#include <memory>
 
-#include "integrator/mat.hpp"
+#include "geometry/vec3.hpp"
+#include "mats/mat.hpp"
+#include "utils/constants.hpp"
 #include "utils/rng.hpp"
-#include "utils/vec3.hpp"
 
-Lambertian::Lambertian(const Vec3& color, float emission, float albedo, float prob)
-    : Mat(color, emission, prob), albedo(albedo) {}
+Lambertian::Lambertian(const Vec3& color, float em) : Mat(color, em) {}
+Lambertian::Lambertian(Lambertian& lamb) : Mat(lamb) {}
 
-Vec3 Lambertian::bsdf(const Vec3& normal, const Vec3& direction) const {
-    return Vec3{1, 1, 1} * albedo * PI_INV * normal.dot(direction);
+float Lambertian::f(const Vec3& norm, const Vec3& dir) const {
+    return PI_INV * norm.dot(dir);
 }
 
-Vec3 Lambertian::direction(const Vec3& normal) const {
-    float r1 = TWO_PI * RNG::rand(0, 1);
-    float r2 = RNG::rand(0, 1);
+float Lambertian::prob() const {
+    return TWO_PI_INV;
+}
+
+Vec3 Lambertian::dir(const Vec3& norm) const {
+    float r1 = TWO_PI * rng::gen(0, 1);
+    float r2 = rng::gen(0, 1);
     float r2s = std::sqrt(r2);
 
-    Vec3 u = ((std::abs(normal.x) > 0.1 ? Vec3{0, 1} : Vec3{1}).cross(normal)).norm();
-    Vec3 v = normal.cross(u);
-    return (u * std::cos(r1) * r2s + v * std::sin(r1) * r2s + normal * std::sqrt(1 - r2)).norm();
+    Vec3 u = ((std::abs(norm.x) > 0.1 ? Vec3(0, 1, 0) : Vec3(1, 0, 0)).cross(norm)).norm();
+    Vec3 v = norm.cross(u);
+    return (u * std::cos(r1) * r2s + v * std::sin(r1) * r2s + norm * std::sqrt(1 - r2)).norm();
 }

@@ -1,12 +1,9 @@
 #include "utils/scene.hpp"
 
-#include "utils/vec3.hpp"
+#include <memory>
+#include <vector>
 
-void Scene::insert(std::shared_ptr<Shape> shape, std::shared_ptr<Mat> mat, bool light) {
-    shapes.emplace_back(shape);
+void Scene::insert(std::unique_ptr<Shape> shape, std::shared_ptr<Mat> mat) {
+    shapes.emplace_back(std::move(shape));
     mats.emplace_back(mat);
-
-    if (light) {
-        lights.emplace_back(shapes.size() - 1);
-    }
 }

@@ -1,3 +1,5 @@
-namespace RNG {
-float rand(float min, float max);
-}  // namespace RNG
+#pragma once
+
+namespace rng {
+float gen(float min, float max);
+}  // namespace rng

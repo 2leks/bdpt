@@ -1,6 +1,8 @@
-#include "utils/vec3.hpp"
+#include "geometry/vec3.hpp"
 
 #include <cmath>
+
+Vec3::Vec3(float x, float y, float z) : x(x), y(y), z(z) {}
 
 Vec3 Vec3::operator+(float rhs) const {
     return Vec3{x + rhs, y + rhs, z + rhs};
@@ -10,16 +12,24 @@ Vec3 Vec3::operator*(float rhs) const {
     return Vec3{x * rhs, y * rhs, z * rhs};
 }
 
+Vec3 Vec3::operator-(float rhs) const {
+    return Vec3{x - rhs, y - rhs, z - rhs};
+}
+
+Vec3 Vec3::operator-() const {
+    return Vec3{-x, -y, -z};
+}
+
 Vec3 Vec3::operator+(Vec3 const& rhs) const {
     return Vec3{x + rhs.x, y + rhs.y, z + rhs.z};
 }
 
-Vec3 Vec3::operator-(Vec3 const& rhs) const {
-    return Vec3{x - rhs.x, y - rhs.y, z - rhs.z};
-}
-
 Vec3 Vec3::operator*(Vec3 const& rhs) const {
     return Vec3{x * rhs.x, y * rhs.y, z * rhs.z};
+}
+
+Vec3 Vec3::operator-(Vec3 const& rhs) const {
+    return Vec3{x - rhs.x, y - rhs.y, z - rhs.z};
 }
 
 Vec3 Vec3::norm() const {
@@ -55,4 +65,8 @@ Vec3 operator+(float rhs, Vec3 const& lhs) {
 
 Vec3 operator*(float rhs, Vec3 const& lhs) {
     return lhs * rhs;
+}
+
+Vec3 operator-(float rhs, Vec3 const& lhs) {
+    return lhs - rhs;
 }

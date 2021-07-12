@@ -1,18 +1,18 @@
 #pragma once
-
 #include <memory>
 
-#include "integrator/mat.hpp"
+#include "mats/mat.hpp"
 #include "utils/constants.hpp"
 
 struct Vec3;
 
 struct Lambertian : Mat {
-    float albedo;
+    Lambertian(const Vec3& color, float em = 0);
+    Lambertian(Lambertian& lamb);
+    Lambertian(Lambertian&& lamb) = default;
 
-    Lambertian(const Vec3& color, float emission = 0, float albedo = 1, float prob = TWO_PI_INV);
-    ~Lambertian() = default;
+    float f(const Vec3& norm, const Vec3& dir) const;
+    float prob() const;
 
-    Vec3 bsdf(const Vec3& normal, const Vec3& direction) const;
-    Vec3 direction(const Vec3& normal) const;
+    Vec3 dir(const Vec3& norm) const;
 };

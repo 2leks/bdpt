@@ -1,18 +1,21 @@
 #pragma once
-
 #include <memory>
 #include <optional>
 
-#include "integrator/shape.hpp"
+#include "geometry/shape.hpp"
 
 struct Vec3;
 struct Interaction;
 struct Ray;
 
 struct Sphere : Shape {
-    std::shared_ptr<Vec3> center;
-    float radius;
-    Sphere(Vec3 center, float radius);
-    std::optional<Interaction> interact(const Ray& ray, int id) const;
-    Vec3 normal(const Vec3& direction, const Vec3& at) const;
+    float rad;
+    std::unique_ptr<Vec3> cent;
+
+    Sphere(float rad, const Vec3& cent);
+    Sphere(Sphere& sp);
+    Sphere(Sphere&& sp) = default;
+
+    std::optional<Interaction> solve(const Ray& ray, int id) const;
+    Vec3 norm(const Vec3& dir, const Vec3& at) const;
 };

@@ -4,29 +4,28 @@
 #include <optional>
 
 #include "geometry/ray.hpp"
+#include "geometry/vec3.hpp"
 #include "integrator/interaction.hpp"
-#include "integrator/mat.hpp"
+#include "mats/mat.hpp"
 #include "utils/scene.hpp"
-#include "utils/vec3.hpp"
 
-namespace Path {
+namespace path {
 
-Vec3 radiance(const Ray& ray, Scene scene, int bounces) {
-    if (decltype(Interaction::find(ray, scene)) action; bounces < 5 && (action = Interaction::find(ray, scene))) {
-        std::shared_ptr<Shape> shape = scene.shapes[action->id];
+Vec3 radiance(const Ray& ray, const Scene& scene, int bounces) {
+    if (decltype(ray.trace(scene)) action; bounces < 5 && (action = ray.trace(scene))) {
         std::shared_ptr<Mat> mat = scene.mats[action->id];
-        Vec3 hit = *action->point;
+        Vec3 hit = *action->hit;
 
-        Vec3 normal = shape->normal(*ray.direction, hit);
-        Vec3 direction = mat->direction(normal);
-        Vec3 color = *mat->color * std::max(0.f, normal.dot(-1 * *ray.direction));
+        Vec3 norm = scene.shapes[action->id]->norm(*ray.dir, hit);
+        Vec3 dir = mat->dir(norm);
+        Vec3 color = *mat->color;
 
-        Vec3 f = color * mat->bsdf(normal, direction) * (1.f / mat->prob);
-        Ray next(*action->point, direction);
-        return mat->emission + f * radiance(next, scene, bounces + 1);
+        Vec3 f = color * mat->f(norm, dir) * (1.f / mat->prob());
+        Ray next(*action->hit, dir);
+        return mat->em + f * radiance(next, scene, bounces + 1);
     }
 
-    return Vec3{};
+    return Vec3(0, 0, 0);
 }
 
-}  // namespace Path
+}  // namespace path

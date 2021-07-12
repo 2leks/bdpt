@@ -1,22 +1,22 @@
 #include "mats/dielectric.hpp"
 
-#include <cmath>
+#include <memory>
 
-#include "integrator/mat.hpp"
-#include "utils/rng.hpp"
-#include "utils/vec3.hpp"
+#include "geometry/vec3.hpp"
+#include "mats/mat.hpp"
+#include "utils/constants.hpp"
 
-Dielectric::Dielectric(const Vec3& color, float emission, float refraction, float prob)
-    : Mat(color, emission, prob), refraction(refraction) {}
+Dielectric::Dielectric(const Vec3& color, float ior, float em) : Mat(color, em), ior(ior) {}
+Dielectric::Dielectric(Dielectric& diel) : Mat(diel), ior(diel.ior) {}
 
-Vec3 Dielectric::fresnel(const Vec3& normal, const Vec3& direction) const {
-    return direction - 2 * normal.dot(direction) * normal;
+float Dielectric::f(const Vec3& from, const Vec3& to) const {
+    return 1;
 }
 
-Vec3 Dielectric::bsdf(const Vec3& normal, const Vec3& direction) const {
-    return fresnel(normal, direction);
+float Dielectric::prob() const {
+    return 1;
 }
 
-Vec3 Dielectric::direction(const Vec3& normal) const {
-    return Vec3{};
+Vec3 Dielectric::dir(const Vec3& norm) const {
+    return Vec3(1, 1, 1);
 }
