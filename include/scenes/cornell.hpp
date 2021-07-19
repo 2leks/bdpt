@@ -23,6 +23,8 @@ Scene scene() {
     auto GREEN_LAMB = std::make_shared<Lambertian>(GREEN);
     auto YELLOW_LAMB = std::make_shared<Lambertian>(YELLOW);
 
+    auto LIGHT_LAMB = std::make_shared<Lambertian>(WHITE, 16);
+
     Vec3 FAR_TOP_LEFT(-1, 1, 1);
     Vec3 FAR_TOP_RIGHT(1, 1, 1);
     Vec3 FAR_BOTTOM_LEFT(-1, -1, 1);
@@ -35,7 +37,11 @@ Scene scene() {
     Scene scene;
 
     // spherical light
-    scene.insert(std::make_unique<Sphere>(.25, Vec3(0, .5, 0)), std::make_unique<Lambertian>(WHITE, 1));
+    // scene.insert(std::make_unique<Sphere>(.25, Vec3(0, .5, 0)), std::make_unique<Lambertian>(WHITE, 1));
+
+    // flat light
+    scene.insert(std::make_unique<Triangle>(Vec3(-0.35, 1, 0.25), Vec3(0.35, 1, -0.25), Vec3(0.35, 1, 0.25)), LIGHT_LAMB); 
+    scene.insert(std::make_unique<Triangle>(Vec3(-0.35, 1, 0.25), Vec3(-0.35, 1, -0.25), Vec3(0.35, 1, -0.25)), LIGHT_LAMB);
 
     // room
     scene.insert(std::make_unique<Triangle>(FAR_BOTTOM_RIGHT, CLOSE_BOTTOM_LEFT, CLOSE_BOTTOM_RIGHT), GRAY_LAMB);
@@ -49,8 +55,8 @@ Scene scene() {
     scene.insert(std::make_unique<Triangle>(FAR_TOP_RIGHT, FAR_BOTTOM_LEFT, FAR_BOTTOM_RIGHT), GRAY_LAMB);
     scene.insert(std::make_unique<Triangle>(FAR_TOP_RIGHT, FAR_TOP_LEFT, FAR_BOTTOM_LEFT), GRAY_LAMB);
 
-    // // tall block
-    // // clang-format off
+    // tall block
+    // clang-format off
     scene.insert(std::make_unique<Triangle>(Vec3(-.52, .18, -.08), Vec3(.04, -1, .06), Vec3(-.52, -1, -.08)), BLUE_LAMB);
     scene.insert(std::make_unique<Triangle>(Vec3(-.52, .18, -.08), Vec3(.04, .18, .06), Vec3(.04, -1, .06)), BLUE_LAMB);
     scene.insert(std::make_unique<Triangle>(Vec3(.04, .18, .06), Vec3(-.14, -1, .64), Vec3(.04, -1, .06)), BLUE_LAMB);
@@ -75,7 +81,7 @@ Scene scene() {
     scene.insert(std::make_unique<Triangle>(Vec3(-.04, -.4, -.58), Vec3(-.04, -1, -.58), Vec3(.14, -1, -.02)), PINK_LAMB);
     scene.insert(std::make_unique<Triangle>(Vec3(.14, -.4, -.02), Vec3(.54, -.4, -.76), Vec3(-.04, -.4, -.58)), PINK_LAMB);
     scene.insert(std::make_unique<Triangle>(Vec3(.14, -.4, -.02), Vec3(.7, -.4, -.2), Vec3(.54, -.4, -.76)), PINK_LAMB);
-    // // clang-format on
+    // clang-format on
 
     return scene;
 }
